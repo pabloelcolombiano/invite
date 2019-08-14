@@ -1,0 +1,31 @@
+AppBundle\Entity\Invitation:
+    type: entity
+    table: invitations
+    repositoryClass: AppBundle\Repository\InvitationRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        sender_id:
+            type: integer
+            length: 11
+            nullable: false
+            unique: false
+        invited_id:
+            type: integer
+            length: 11
+            nullable: false
+            unique: false
+        status:
+            type: string
+            length: 15
+            nullable: false
+            unique: false
+        created:
+            type: date
+        modified:
+            type: date
+    lifecycleCallbacks: {  }
