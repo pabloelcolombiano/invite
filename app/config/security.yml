@@ -10,6 +10,15 @@ security:
     providers:
         fos_userbundle:
             id: fos_user.user_provider.username
+        in_memory:
+            memory:
+                users:
+                    sender:
+                        password: $2y$13$e83glOLn4zRmU8KwcqblReqO7wFq/u2icTPnp9hMEgpT/PkkHZMce
+                        roles: 'ROLE_USER'
+                    invited:
+                        password: $2y$13$9PHz2o3/1AXGd5s/82RpTemiY3qp7MGKMZGkWwxZA3DT33YZMnBd.
+                        roles: 'ROLE_USER'
 
     firewalls:
         main:
@@ -27,4 +36,5 @@ security:
         - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/admin/, role: ROLE_ADMIN }
+        - { path: ^/invitations/, role: ROLE_USER }
 

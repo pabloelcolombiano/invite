@@ -1,0 +1,31 @@
+<h4>{{ title }}</h4>
+<table>
+    <thead>
+    <tr>
+        <th> From </th>
+        <th> To </th>
+        <th> Status </th>
+        <th> Created </th>
+        <th> Modified </th>
+        <th> Action (not implemented) </th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for invitation in invitations %}
+        <tr>
+            <td>{{ invitation.sender_id }}</td>
+            <td>{{ invitation.invited_id }}</td>
+            <td>{{ invitation.status }}</td>
+            <td>{{ invitation.created }}</td>
+            <td>{{ invitation.modified }}</td>
+            {% if action == 'cancel' and invitation.status != 'canceled' or action == 'decline' and invitation.status != 'declined' %}
+                <td>
+                    <form action="/api/{{ action }}/{{ userId }}/{{ invitation.id }}">
+                        <button>{{ action }}</button>
+                    </form>
+                </td>
+            {% endif %}
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>

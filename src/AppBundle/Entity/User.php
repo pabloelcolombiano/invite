@@ -5,24 +5,16 @@ namespace AppBundle\Entity;
 
 use AppBundle\Entity\Behavior\TimeStampBehavior;
 use FOS\UserBundle\Model\User as BaseUser;
+use Doctrine\ORM;
 
-/**
- * @ORM\Entity
- * @ORM\Table(name="fos_user")
- */
 class User extends BaseUser
 {
     use TimeStampBehavior;
 
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
     protected $id;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     *
      */
     protected $token;
 

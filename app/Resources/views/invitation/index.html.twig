@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div id="wrapper">
+        <div id="container">
+            <div>
+                <h4>Manage your invitations</h4>
+                The search function was not implemented... yet!
+            </div>
+            <div class="invitation-index">
+                {{ include('invitation/table.html.twig', { 'title' : 'Sent', 'invitations' : invitationsSent, 'action' : 'cancel',  }) }}
+                <hr>
+            </div>
+            <div class="invitation-index">
+                {{ include('invitation/table.html.twig', { 'title' : 'Received', 'invitations' : invitationsReceived, 'action' : 'decline' }) }}
+                <hr>
+            </div>
+        </div>
+    </div>
+{% endblock %}

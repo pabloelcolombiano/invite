@@ -4,6 +4,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Invitation;
 use AppBundle\Entity\User;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Routing\Annotation\Route;
@@ -88,6 +89,28 @@ class InvitationController extends Controller
             $this->response = "Invitation " . $invitation->getStatus();
         }
         return $this->json(['response' => $this->response]);
+    }
+
+    /**
+     * @Route("/invitations", name="invitations")
+     */
+    public function index()
+    {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+
+        $userId = $this->getUser()->getId();
+
+        $invitationsSent = $this->getDoctrine()->getRepository(Invitation::class)
+            ->findBy([
+                'sender_id' => $userId,
+            ], ['created' => 'DESC']);
+
+        $invitationsReceived = $this->getDoctrine()->getRepository(Invitation::class)
+            ->findBy([
+                'invited_id' => $userId,
+            ], ['created' => 'DESC']);
+
+        return $this->render('invitation/index.html.twig', compact('invitationsSent', 'invitationsReceived', 'userId'));
     }
 
     /**
