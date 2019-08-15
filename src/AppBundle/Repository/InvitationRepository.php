@@ -2,6 +2,9 @@
 
 namespace AppBundle\Repository;
 
+use AppBundle\Entity\Invitation;
+use AppBundle\Entity\User;
+
 /**
  * InvitationRepository
  *
@@ -10,4 +13,36 @@ namespace AppBundle\Repository;
  */
 class InvitationRepository extends \Doctrine\ORM\EntityRepository
 {
+    /**
+     * Find sent invitations
+     * @param $userId
+     * @return array
+     */
+    public function findSent($userId)
+    {
+        return $this->findFromField('invited_id', $userId);
+    }
+
+    /**
+     * Find received invitations
+     * @param $userId
+     * @return array
+     */
+    public function findReceived($userId)
+    {
+        return $this->findFromField('sender_id', $userId);
+    }
+
+    public function findFromField($field, $userId)
+    {
+        return $this->createQueryBuilder('invitation')
+            ->addSelect('s.username sender')
+            ->addSelect('i.username invited')
+            ->leftJoin(User::class, 'i', 'WITH', 'i.id = invitation.invited_id')
+            ->leftJoin(User::class, 's', 'WITH', 's.id = invitation.sender_id')
+            ->where("invitation.$field = $userId")
+            ->orderBy('invitation.created', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
 }

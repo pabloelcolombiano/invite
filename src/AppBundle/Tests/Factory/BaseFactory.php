@@ -31,7 +31,7 @@ abstract class BaseFactory
         }
         $this->entity->setCreated();
         $this->entity->setModified();
-//        var_dump($this->entity);die();
+
         $this->em->persist($this->entity);
         $this->em->flush();
         return $this->entity;

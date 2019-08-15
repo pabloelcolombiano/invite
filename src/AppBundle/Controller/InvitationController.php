@@ -4,6 +4,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Invitation;
 use AppBundle\Entity\User;
+use AppBundle\Repository\InvitationRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -62,7 +63,6 @@ class InvitationController extends Controller
         if ($this->_tokenIsValid($invitedId, $token)) {
             /** @var Invitation $invitation */
             $invitation = $this->getDoctrine()->getRepository(Invitation::class)->find($invitationId);
-//            var_dump($invitation);
             $invitation->setStatus($invitation::STATUS_ACCEPTED);
 
             $this->getDoctrine()->getManager()->persist($invitation);
@@ -100,17 +100,15 @@ class InvitationController extends Controller
 
         $userId = $this->getUser()->getId();
 
-        $invitationsSent = $this->getDoctrine()->getRepository(Invitation::class)
-            ->findBy([
-                'sender_id' => $userId,
-            ], ['created' => 'DESC']);
+        $InvitationRepository = $this
+            ->getDoctrine()
+            ->getManager()
+            ->getRepository(Invitation::class);
 
-        $invitationsReceived = $this->getDoctrine()->getRepository(Invitation::class)
-            ->findBy([
-                'invited_id' => $userId,
-            ], ['created' => 'DESC']);
+        $invitationsSent = $InvitationRepository->findSent($userId);
+        $invitationsReceived = $InvitationRepository->findReceived($userId);
 
-        return $this->render('invitation/index.html.twig', compact('invitationsSent', 'invitationsReceived', 'userId'));
+        return $this->render('invitation/index.html.twig', compact('invitationsSent', 'invitationsReceived'));
     }
 
     /**

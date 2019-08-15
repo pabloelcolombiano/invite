@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use AppBundle\Entity\Behavior\TimeStampBehavior;
+use Doctrine\ORM;
 
 /**
  * Invitation
@@ -35,6 +36,18 @@ class Invitation
      * @var string
      */
     private $status;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="invitations")
+     * @ORM\JoinColumn(name="sender_id", referencedColumnName="id")
+     */
+    private $sender;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="invitations")
+     * @ORM\JoinColumn(name="invited_id", referencedColumnName="id")
+     */
+    private $invited;
 
     /**
      * Get id
@@ -118,6 +131,11 @@ class Invitation
         return $this->status;
     }
 
+    /**
+     * Populate a new invitation with the new status
+     * @param int $senderId
+     * @param int $invitedId
+     */
     public function create(int $senderId, int $invitedId)
     {
         $this->setSenderId($senderId);
@@ -125,6 +143,55 @@ class Invitation
         $this->setStatus(self::STATUS_NEW);
         $this->setCreated();
         $this->setModified();
+    }
+
+    public function getFrontendColor()
+    {
+        switch ($this->getStatus()) {
+            case self::STATUS_CANCELED:
+            case self::STATUS_DECLINED:
+                $textColor = 'red';
+                break;
+            case self::STATUS_ACCEPTED:
+                $textColor = 'green';
+                break;
+            default:
+                $textColor = '';
+                break;
+        }
+        return $textColor;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSender()
+    {
+        return $this->sender;
+    }
+
+    /**
+     * @param mixed $sender
+     */
+    public function setSender($sender)
+    {
+        $this->sender = $sender;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getInvited()
+    {
+        return $this->invited;
+    }
+
+    /**
+     * @param mixed $invited
+     */
+    public function setInvited($invited)
+    {
+        $this->invited = $invited;
     }
 }
 

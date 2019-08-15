@@ -1,27 +1,26 @@
-<h4>{{ title }}</h4>
-<table>
-    <thead>
-    <tr>
-        <th> From </th>
-        <th> To </th>
-        <th> Status </th>
-        <th> Created </th>
-        <th> Modified </th>
-        <th> Action (not implemented) </th>
-    </tr>
+<table class="table table-borderless table-hover">
+    <thead class="thead-dark">
+        <tr>
+            <th> From </th>
+            <th> To </th>
+            <th> Status </th>
+            <th> Created </th>
+            <th> Modified </th>
+            <th> Action (not implemented) </th>
+        </tr>
     </thead>
     <tbody>
     {% for invitation in invitations %}
-        <tr>
-            <td>{{ invitation.sender_id }}</td>
-            <td>{{ invitation.invited_id }}</td>
-            <td>{{ invitation.status }}</td>
-            <td>{{ invitation.created }}</td>
-            <td>{{ invitation.modified }}</td>
-            {% if action == 'cancel' and invitation.status != 'canceled' or action == 'decline' and invitation.status != 'declined' %}
-                <td>
-                    <form action="/api/{{ action }}/{{ userId }}/{{ invitation.id }}">
-                        <button>{{ action }}</button>
+        <tr style="color: {{ invitation.0.getFrontendColor }};">
+            <td>{{ invitation.sender }}</td>
+            <td>{{ invitation.invited }}</td>
+            <td>{{ invitation.0.status|capitalize }}</td>
+            <td>{{ invitation.0.created|date('Y-m-d') }}</td>
+            <td>{{ invitation.0.modified|date('Y-m-d') }}</td>
+            {% if action == 'cancel' and invitation.0.status != 'canceled' or action == 'decline' and invitation.0.status != 'declined' %}
+                <td class="text-center">
+                    <form action="/api/{{ action }}/{{ app.user.id }}/{{ invitation.0.id }}">
+                        <button type="button" class="btn btn-outline-warning">{{ action }}</button>
                     </form>
                 </td>
             {% endif %}

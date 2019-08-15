@@ -8,12 +8,12 @@
                 The search function was not implemented... yet!
             </div>
             <div class="invitation-index">
-                {{ include('invitation/table.html.twig', { 'title' : 'Sent', 'invitations' : invitationsSent, 'action' : 'cancel',  }) }}
-                <hr>
+                <h4>Invitations received</h4>
+                {{ include('invitation/table.html.twig', { 'invitations' : invitationsReceived, 'action' : 'decline' }) }}
             </div>
             <div class="invitation-index">
-                {{ include('invitation/table.html.twig', { 'title' : 'Received', 'invitations' : invitationsReceived, 'action' : 'decline' }) }}
-                <hr>
+                <h4>Invitations sent</h4>
+                {{ include('invitation/table.html.twig', { 'invitations' : invitationsSent, 'action' : 'cancel',  }) }}
             </div>
         </div>
     </div>

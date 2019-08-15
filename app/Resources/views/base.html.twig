@@ -3,6 +3,7 @@
     <head>
         <meta charset="UTF-8" />
         <title>{% block title %}Invite!{% endblock %}</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
         {% block stylesheets %}
             <style>
                 body { font: 18px/1.5 sans-serif; color: #999999; margin: 0; }
@@ -34,7 +35,7 @@
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
     </head>
     <body>
-        {{ include('element/nav.html.twig', { 'userId': userId ?? null }) }}
+        {{ include('element/nav.html.twig') }}
         {% block body %}{% endblock %}
         {{ include('element/footer.html.twig') }}
         {% block javascripts %}{% endblock %}

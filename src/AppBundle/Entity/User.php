@@ -13,9 +13,6 @@ class User extends BaseUser
 
     protected $id;
 
-    /**
-     *
-     */
     protected $token;
 
     public function __construct()
